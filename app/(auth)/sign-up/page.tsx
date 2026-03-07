@@ -10,6 +10,7 @@ import FooterLink from "@/components/forms/FooterLink";
 import {signUpWithEmail} from "@/lib/actions/auth.actions";
 import {useRouter} from "next/navigation";
 import {toast} from "sonner";
+import LoadingSpinner from '@/components/LoadingSpinner';
 
 const SignUp = () => {
     const router = useRouter()
@@ -120,6 +121,8 @@ const SignUp = () => {
 
                 <FooterLink text="Already have an account?" linkText="Sign in" href="/sign-in" />
             </form>
+
+            {isSubmitting && <LoadingSpinner fullScreen label="Creating your account..." />}
         </>
     )
 }

@@ -1,30 +1,56 @@
 'use client';
-import { useEffect, useRef }     from "react";
+import { useEffect, useRef, useState } from 'react';
 
-const useTradingViewWidget = (scriptUrl: string, config: Record<string, unknown>, height = 600) => {
-    const containerRef = useRef<HTMLDivElement | null>(null);
+const useTradingViewWidget = (
+  scriptUrl: string,
+  config: Record<string, unknown>,
+  height = 600,
+  reloadToken = 0
+) => {
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
 
-    useEffect(() => {
-        if (!containerRef.current) return;
-        if (containerRef.current.dataset.loaded) return;
-        containerRef.current.innerHTML = `<div class="tradingview-widget-container__widget" style="width: 100%; height: ${height}px;"></div>`;
+  useEffect(() => {
+    if (!containerRef.current) return;
+    const container = containerRef.current;
+    let active = true;
 
-        const script = document.createElement("script");
-        script.src = scriptUrl;
-        script.async = true;
-        script.innerHTML = JSON.stringify(config);
+    setLoading(true);
+    setError('');
 
-        containerRef.current.appendChild(script);
-        containerRef.current.dataset.loaded = 'true';
+    const widgetNode = document.createElement('div');
+    widgetNode.className = 'tradingview-widget-container__widget';
+    widgetNode.style.width = '100%';
+    widgetNode.style.height = `${height}px`;
 
-        return () => {
-            if(containerRef.current) {
-                containerRef.current.innerHTML = '';
-                delete containerRef.current.dataset.loaded;
-            }
-        }
-    }, [scriptUrl, config, height])
+    const script = document.createElement('script');
+    script.src = scriptUrl;
+    script.async = true;
+    script.innerHTML = JSON.stringify(config);
+    script.onload = () => {
+      if (!active) return;
+      setLoading(false);
+    };
+    script.onerror = () => {
+      if (!active) return;
+      setError('Unable to load market widget.');
+      setLoading(false);
+    };
 
-    return containerRef;
-}
-export default useTradingViewWidget
+    container.replaceChildren(widgetNode, script);
+
+    return () => {
+      active = false;
+      container.replaceChildren();
+    };
+  }, [scriptUrl, config, height, reloadToken]);
+
+  return {
+    containerRef,
+    loading,
+    error,
+  };
+};
+
+export default useTradingViewWidget;
