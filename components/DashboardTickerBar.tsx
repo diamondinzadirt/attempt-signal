@@ -11,7 +11,9 @@ const DashboardTickerBar = () => {
 
   return (
     <div className="w-full border-b border-gray-600 bg-gray-800">
-      <TickerTapeWidget className="w-full" />
+      <div className="container px-6">
+        <TickerTapeWidget className="w-full" />
+      </div>
     </div>
   );
 };

@@ -1,5 +1,6 @@
 import TradingViewWidget from "@/components/TradingViewWidget";
 import WatchlistButton from "@/components/WatchlistButton";
+import DetailBackButton from "@/components/DetailBackButton";
 import { isStockInCurrentUserWatchlist } from "@/lib/actions/watchlist.actions";
 import {
   SYMBOL_INFO_WIDGET_CONFIG,
@@ -17,7 +18,10 @@ export default async function StockDetails({ params }: StockDetailsPageProps) {
   const scriptUrl = `https://s3.tradingview.com/external-embedding/embed-widget-`;
 
   return (
-    <div className="flex min-h-screen p-4 md:p-6 lg:p-8">
+    <div className="relative flex min-h-screen p-4 md:p-6 lg:p-8">
+      <div className="absolute left-4 top-4 z-10 md:left-6 md:top-6 lg:left-8 lg:top-8">
+        <DetailBackButton />
+      </div>
       <section className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full">
         {/* Left column */}
         <div className="flex flex-col gap-6">
@@ -33,17 +37,13 @@ export default async function StockDetails({ params }: StockDetailsPageProps) {
             className="custom-chart"
             height={600}
           />
-             <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between">
             <WatchlistButton symbol={upperSymbol} company={upperSymbol} isInWatchlist={isInWatchlist} />
           </div>
-
-          
         </div>
 
         {/* Right column */}
         <div className="flex flex-col gap-6">
-       
-
           <TradingViewWidget
             scriptUrl={`${scriptUrl}technical-analysis.js`}
             config={TECHNICAL_ANALYSIS_WIDGET_CONFIG(symbol)}

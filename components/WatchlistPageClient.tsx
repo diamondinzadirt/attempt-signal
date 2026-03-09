@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState, type TouchEvent } from 'react';
 import { Loader2, Search, Star } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import WatchlistButton from '@/components/WatchlistButton';
@@ -36,12 +36,22 @@ const getChangeColor = (value?: number) => {
 };
 
 const WatchlistPageClient = () => {
+  const SWIPE_THRESHOLD = 90;
+  const SWIPE_EXIT_X = 420;
+  const SWIPE_ANIMATION_MS = 220;
+
   const [query, setQuery] = useState('');
   const [suggestions, setSuggestions] = useState<StockWithWatchlistStatus[]>([]);
   const [suggestionLoading, setSuggestionLoading] = useState(false);
   const [favoriteSymbols, setFavoriteSymbols] = useState<Set<string>>(new Set());
   const [pendingFavorites, setPendingFavorites] = useState<Set<string>>(new Set());
+  const [activeSuggestionIndex, setActiveSuggestionIndex] = useState(0);
+  const [swipeOffsetX, setSwipeOffsetX] = useState(0);
+  const [isDraggingSuggestion, setIsDraggingSuggestion] = useState(false);
+  const [isResolvingSwipe, setIsResolvingSwipe] = useState(false);
   const { snapshot, loading, refreshing, error, reload } = useWatchlistSnapshot();
+  const touchStartX = useRef<number | null>(null);
+  const touchStartY = useRef<number | null>(null);
 
   const filteredWatchlist = useMemo(() => {
     const normalizedQuery = query.trim().toLowerCase();
@@ -141,6 +151,87 @@ const WatchlistPageClient = () => {
 
   const showSuggestions = Boolean(query.trim());
   const isInitialWatchlistLoad = loading && snapshot.watchlist.length === 0 && !error;
+  const activeSuggestion = snapshot.suggestions[activeSuggestionIndex];
+  const nextSuggestion = snapshot.suggestions[activeSuggestionIndex + 1];
+  const hasUsedAllSuggestions = snapshot.suggestions.length > 0 && !activeSuggestion;
+
+  useEffect(() => {
+    setActiveSuggestionIndex(0);
+    setSwipeOffsetX(0);
+    setIsDraggingSuggestion(false);
+    setIsResolvingSwipe(false);
+  }, [snapshot.updatedAt]);
+
+  const handleSwipeRightAdd = useCallback(
+    async (suggestion: WatchlistSuggestionStock) => {
+      const response = await addToWatchlist(suggestion.symbol, suggestion.company);
+      if (!response.success) {
+        toast.error(response.message || 'Unable to add stock to watchlist');
+        return;
+      }
+
+      toast.success(`${suggestion.symbol} added to your watchlist.`);
+      reload();
+    },
+    [reload]
+  );
+
+  const advanceSuggestionDeck = useCallback(
+    (direction: 'left' | 'right') => {
+      if (!activeSuggestion || isResolvingSwipe) return;
+
+      setIsResolvingSwipe(true);
+      setIsDraggingSuggestion(false);
+      setSwipeOffsetX(direction === 'right' ? SWIPE_EXIT_X : -SWIPE_EXIT_X);
+
+      if (direction === 'right') {
+        void handleSwipeRightAdd(activeSuggestion);
+      }
+
+      window.setTimeout(() => {
+        setActiveSuggestionIndex((prev) => prev + 1);
+        setSwipeOffsetX(0);
+        setIsResolvingSwipe(false);
+      }, SWIPE_ANIMATION_MS);
+    },
+    [SWIPE_ANIMATION_MS, SWIPE_EXIT_X, activeSuggestion, handleSwipeRightAdd, isResolvingSwipe]
+  );
+
+  const handleSuggestionTouchStart = (event: TouchEvent<HTMLDivElement>) => {
+    if (!activeSuggestion || isResolvingSwipe) return;
+    touchStartX.current = event.touches[0]?.clientX ?? null;
+    touchStartY.current = event.touches[0]?.clientY ?? null;
+    setIsDraggingSuggestion(true);
+  };
+
+  const handleSuggestionTouchMove = (event: TouchEvent<HTMLDivElement>) => {
+    if (touchStartX.current === null || touchStartY.current === null || !activeSuggestion || isResolvingSwipe) return;
+
+    const currentX = event.touches[0]?.clientX ?? touchStartX.current;
+    const currentY = event.touches[0]?.clientY ?? touchStartY.current;
+    const deltaX = currentX - touchStartX.current;
+    const deltaY = currentY - touchStartY.current;
+
+    if (Math.abs(deltaY) > Math.abs(deltaX)) return;
+    event.preventDefault();
+    setSwipeOffsetX(deltaX);
+  };
+
+  const handleSuggestionTouchEnd = () => {
+    if (!activeSuggestion || isResolvingSwipe) return;
+
+    if (swipeOffsetX >= SWIPE_THRESHOLD) {
+      advanceSuggestionDeck('right');
+    } else if (swipeOffsetX <= -SWIPE_THRESHOLD) {
+      advanceSuggestionDeck('left');
+    } else {
+      setSwipeOffsetX(0);
+      setIsDraggingSuggestion(false);
+    }
+
+    touchStartX.current = null;
+    touchStartY.current = null;
+  };
 
   if (isInitialWatchlistLoad) {
     return (
@@ -311,35 +402,93 @@ const WatchlistPageClient = () => {
           </p>
 
           <div className="mt-4 space-y-3">
-            {snapshot.suggestions.length > 0 ? (
-              snapshot.suggestions.map((suggestion: WatchlistSuggestionStock) => (
-                <div key={suggestion.symbol} className="rounded-lg border border-gray-600/80 bg-gray-700/30 p-3">
-                  <div className="flex items-start justify-between gap-3">
-                    <div>
-                      <Link href={`/stocks/${suggestion.symbol}`} className="font-semibold text-gray-100 hover:text-violet-500">
-                        {suggestion.symbol}
-                      </Link>
-                      <p className="text-sm text-gray-400">{suggestion.company}</p>
-                    </div>
-                    <WatchlistButton
-                      type="icon"
-                      symbol={suggestion.symbol}
-                      company={suggestion.company}
-                      isInWatchlist={false}
-                      onWatchlistChange={handleWatchlistChanged}
-                    />
+            <div className="md:hidden">
+              {activeSuggestion ? (
+                <div>
+                  <div className="mb-2 flex items-center justify-between text-xs">
+                    <span className="rounded-full border border-violet-500/30 bg-violet-500/10 px-2.5 py-1 text-violet-300">
+                      Swipe right to add to Watchlist
+                    </span>
+                    {nextSuggestion && <span className="text-gray-500">More cards →</span>}
                   </div>
-                  <p className="mt-2 text-xs text-gray-500">{suggestion.reason}</p>
-                  <p className={cn('mt-2 text-sm font-medium', getChangeColor(suggestion.changePercent))}>
-                    {formatPercent(suggestion.changePercent)} today
-                  </p>
+
+                  <div className="relative h-[230px] overflow-hidden">
+                  {nextSuggestion && (
+                    <div className="pointer-events-none absolute inset-y-3 left-7 right-0 rounded-lg border border-gray-600/70 bg-gray-700/20" />
+                  )}
+                  <div
+                    className={cn(
+                      'absolute inset-y-0 left-0 right-5 z-10 rounded-lg border border-gray-600/80 bg-gray-700/30 p-4 shadow-lg',
+                      !isDraggingSuggestion && 'transition-transform duration-200 ease-out'
+                    )}
+                    style={{
+                      transform: `translateX(${swipeOffsetX}px) rotate(${swipeOffsetX / 28}deg)`,
+                    }}
+                    onTouchStart={handleSuggestionTouchStart}
+                    onTouchMove={handleSuggestionTouchMove}
+                    onTouchEnd={handleSuggestionTouchEnd}
+                  >
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="min-w-0">
+                        <Link
+                          href={`/stocks/${activeSuggestion.symbol}`}
+                          className="font-semibold text-gray-100 hover:text-violet-500"
+                        >
+                          {activeSuggestion.symbol}
+                        </Link>
+                        <p className="truncate text-sm text-gray-400">{activeSuggestion.company}</p>
+                      </div>
+                      <span className={cn('text-sm font-medium', getChangeColor(activeSuggestion.changePercent))}>
+                        {formatPercent(activeSuggestion.changePercent)}
+                      </span>
+                    </div>
+                    <p className="mt-3 text-xs text-gray-500">{activeSuggestion.reason}</p>
+                    <p className="mt-6 text-xs text-gray-500">Swipe left to skip this suggestion.</p>
+                  </div>
+                  </div>
                 </div>
-              ))
-            ) : (
-              <p className="rounded-lg border border-gray-600/80 bg-gray-700/30 p-3 text-sm text-gray-500">
-                Add stocks to your watchlist to unlock personalized suggestions.
-              </p>
-            )}
+              ) : hasUsedAllSuggestions ? (
+                <p className="rounded-lg border border-gray-600/80 bg-gray-700/30 p-3 text-sm text-gray-500">
+                  No more suggestions available right now.
+                </p>
+              ) : (
+                <p className="rounded-lg border border-gray-600/80 bg-gray-700/30 p-3 text-sm text-gray-500">
+                  Add stocks to your watchlist to unlock personalized suggestions.
+                </p>
+              )}
+            </div>
+
+            <div className="hidden space-y-3 md:block">
+              {snapshot.suggestions.length > 0 ? (
+                snapshot.suggestions.map((suggestion: WatchlistSuggestionStock) => (
+                  <div key={suggestion.symbol} className="rounded-lg border border-gray-600/80 bg-gray-700/30 p-3">
+                    <div className="flex items-start justify-between gap-3">
+                      <div>
+                        <Link href={`/stocks/${suggestion.symbol}`} className="font-semibold text-gray-100 hover:text-violet-500">
+                          {suggestion.symbol}
+                        </Link>
+                        <p className="text-sm text-gray-400">{suggestion.company}</p>
+                      </div>
+                      <WatchlistButton
+                        type="icon"
+                        symbol={suggestion.symbol}
+                        company={suggestion.company}
+                        isInWatchlist={false}
+                        onWatchlistChange={handleWatchlistChanged}
+                      />
+                    </div>
+                    <p className="mt-2 text-xs text-gray-500">{suggestion.reason}</p>
+                    <p className={cn('mt-2 text-sm font-medium', getChangeColor(suggestion.changePercent))}>
+                      {formatPercent(suggestion.changePercent)} today
+                    </p>
+                  </div>
+                ))
+              ) : (
+                <p className="rounded-lg border border-gray-600/80 bg-gray-700/30 p-3 text-sm text-gray-500">
+                  Add stocks to your watchlist to unlock personalized suggestions.
+                </p>
+              )}
+            </div>
           </div>
         </div>
       </aside>

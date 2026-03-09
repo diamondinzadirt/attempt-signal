@@ -86,6 +86,10 @@ export const WELCOME_EMAIL_TEMPLATE = `<!DOCTYPE html>
                 padding: 15px 15px 8px 15px !important;
             }
         }
+              @keyframes lavender-flow {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 220% 50%; }
+        }
     </style>
 </head>
 <body style="margin: 0; padding: 0; background-color: #050505; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
@@ -97,14 +101,17 @@ export const WELCOME_EMAIL_TEMPLATE = `<!DOCTYPE html>
                     <!-- Header with Logo -->
                     <tr>
                         <td align="left" class="mobile-header-padding" style="padding: 40px 40px 20px 40px;">
-                            <img src="https://ik.imagekit.io/a6fkjou7d/logo.png?updatedAt=1756378431634" alt="Attempt Signal Logo" width="150" style="max-width: 100%; height: auto;">
+                            <div style="display:flex; align-items:center; gap:10px;">
+                                <img src="https://ytyphwdbdyef0ovb.public.blob.vercel-storage.com/logo.svg" alt="Attempt Signal Logo" width="36" height="36" style="display:block; width:36px; height:36px;">
+                                <span style="display:inline-block; font-size:18px; font-weight:700; line-height:1; background: linear-gradient(135deg, #C4B5FD 0%, #A78BFA 100%); background-size: 220% 100%; animation: lavender-flow 3s linear infinite; -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; color:#A78BFA;">Attempt Signal</span>
+                            </div>
                         </td>
                     </tr>
                     
                     <!-- Dashboard Preview Image -->
                     <tr>
                         <td align="center" class="dashboard-preview" style="padding: 40px 40px 0px 40px;">
-                            <img src="https://ik.imagekit.io/a6fkjou7d/dashboard-preview.png?updatedAt=1756378548102" alt="Attempt Signal Dashboard Preview" width="100%" style="max-width: 520px; width: 100%; height: auto; border-radius: 12px; border: 1px solid #30333A;">
+                            <img src="https://ytyphwdbdyef0ovb.public.blob.vercel-storage.com/dashboard" alt="Attempt Signal Dashboard Preview" width="100%" style="max-width: 520px; width: 100%; height: auto; border-radius: 12px; border: 1px solid #30333A;">
                         </td>
                     </tr>
                     
@@ -113,7 +120,7 @@ export const WELCOME_EMAIL_TEMPLATE = `<!DOCTYPE html>
                         <td class="mobile-padding" style="padding: 40px 40px 40px 40px;">
                             
                             <!-- Welcome Heading -->
-                            <h1 class="mobile-title dark-text" style="margin: 0 0 30px 0; font-size: 24px; font-weight: 600; color: #FDD458; line-height: 1.2;">
+                            <h1 class="mobile-title dark-text" style="margin: 0 0 30px 0; font-size: 24px; font-weight: 600; color: #C4B5FD; line-height: 1.2;">
                                 Welcome aboard {{name}}
                             </h1>
                             
@@ -141,7 +148,7 @@ export const WELCOME_EMAIL_TEMPLATE = `<!DOCTYPE html>
                             <table role="presentation" cellspacing="0" cellpadding="0" border="0" style="margin: 0 0 40px 0; width: 100%;">
                                 <tr>
                                     <td align="center">
-                                        <a href="https://stock-market-dev.vercel.app/" style="display: block; width: 100%; background: linear-gradient(135deg, #FDD458 0%, #E8BA40 100%); color: #000000; text-decoration: none; padding: 16px 32px; border-radius: 8px; font-size: 16px; font-weight: 500; line-height: 1; text-align: center; box-sizing: border-box;">
+                                        <a href="https://attempt-signal.vercel.app/" style="display: block; width: 100%; background: linear-gradient(135deg, #C4B5FD 0%, #A78BFA 100%); color: #000000; text-decoration: none; padding: 16px 32px; border-radius: 8px; font-size: 16px; font-weight: 500; line-height: 1; text-align: center; box-sizing: border-box;">
                                             Go to Dashboard
                                         </a>
                                     </td>
@@ -152,7 +159,7 @@ export const WELCOME_EMAIL_TEMPLATE = `<!DOCTYPE html>
                             <p class="mobile-text dark-text-muted" style="margin: 40px 0 0 0; font-size: 14px; line-height: 1.5; color: #CCDADC !important; text-align: center;">
                                Attempt Signal HQ, 200 Market Street, San Francisco, CA 94105<br>
                                 <a href="#" style="color: #CCDADC !important; text-decoration: underline;">Unsubscribe</a> | 
-                                <a href="https://stock-market-dev.vercel.app/" style="color: #CCDADC !important; text-decoration: underline;">Visit Attempt Signal</a><br>
+                                <a href="https://attempt-signal.vercel.app/" style="color: #CCDADC !important; text-decoration: underline;">Visit Attempt Signal</a><br>
                                 © 2025 Attempt Signal
                             </p>
                         </td>
@@ -249,6 +256,10 @@ export const NEWS_SUMMARY_EMAIL_TEMPLATE = `<!DOCTYPE html>
                 padding: 15px 15px 8px 15px !important;
             }
         }
+              @keyframes lavender-flow {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 220% 50%; }
+        }
     </style>
 </head>
 <body style="margin: 0; padding: 0; background-color: #050505; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
@@ -260,7 +271,10 @@ export const NEWS_SUMMARY_EMAIL_TEMPLATE = `<!DOCTYPE html>
                     <!-- Header with Logo -->
                     <tr>
                         <td align="left" class="mobile-header-padding" style="padding: 40px 40px 20px 40px;">
-                            <img src="https://ik.imagekit.io/a6fkjou7d/logo.png?updatedAt=1756378431634" alt="Attempt Signal Logo" width="150" style="max-width: 100%; height: auto;">
+                            <div style="display:flex; align-items:center; gap:10px;">
+                                <img src="https://ytyphwdbdyef0ovb.public.blob.vercel-storage.com/logo.svg" alt="Attempt Signal Logo" width="36" height="36" style="display:block; width:36px; height:36px;">
+                                <span style="display:inline-block; font-size:18px; font-weight:700; line-height:1; background: linear-gradient(135deg, #C4B5FD 0%, #A78BFA 100%); background-size: 220% 100%; animation: lavender-flow 3s linear infinite; -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; color:#A78BFA;">Attempt Signal</span>
+                            </div>
                         </td>
                     </tr>
                     
@@ -269,7 +283,7 @@ export const NEWS_SUMMARY_EMAIL_TEMPLATE = `<!DOCTYPE html>
                         <td class="mobile-padding" style="padding: 40px 40px 40px 40px;">
                             
                             <!-- Header -->
-                            <h1 class="mobile-title dark-text" style="margin: 0 0 20px 0; font-size: 24px; font-weight: 600; color: #FDD458; line-height: 1.2;">
+                            <h1 class="mobile-title dark-text" style="margin: 0 0 20px 0; font-size: 24px; font-weight: 600; color: #C4B5FD; line-height: 1.2;">
                                 Market News Summary Today
                             </h1>
                             
@@ -288,7 +302,7 @@ export const NEWS_SUMMARY_EMAIL_TEMPLATE = `<!DOCTYPE html>
                                 </p>
                                 <p style="margin: 0 0 10px 0; font-size: 14px; line-height: 1.5; color: #CCDADC !important;">
                                     <a href="#" style="color: #CCDADC !important; text-decoration: underline;">Unsubscribe</a> | 
-                                    <a href="https://Attempt Signal.app" style="color: #CCDADC !important; text-decoration: underline;">Visit Attempt Signal</a>
+                                    <a href="https://attempt-signal.vercel.appnal.app" style="color: #CCDADC !important; text-decoration: underline;">Visit Attempt Signal</a>
                                 </p>
                                 <p style="margin: 0; font-size: 14px; line-height: 1.5; color: #CCDADC !important;">
                                     © 2025 Attempt Signal
@@ -399,6 +413,10 @@ export const STOCK_ALERT_UPPER_EMAIL_TEMPLATE = `<!DOCTYPE html>
                 font-size: 24px !important;
             }
         }
+              @keyframes lavender-flow {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 220% 50%; }
+        }
     </style>
 </head>
 <body style="margin: 0; padding: 0; background-color: #050505; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
@@ -410,7 +428,10 @@ export const STOCK_ALERT_UPPER_EMAIL_TEMPLATE = `<!DOCTYPE html>
                     <!-- Header with Logo -->
                     <tr>
                         <td align="left" class="mobile-header-padding" style="padding: 40px 40px 20px 40px;">
-                            <img src="https://ik.imagekit.io/a6fkjou7d/logo.png?updatedAt=1756378431634" alt="Attempt Signal Logo" width="150" style="max-width: 100%; height: auto;">
+                            <div style="display:flex; align-items:center; gap:10px;">
+                                <img src="https://ytyphwdbdyef0ovb.public.blob.vercel-storage.com/logo.svg" alt="Attempt Signal Logo" width="36" height="36" style="display:block; width:36px; height:36px;">
+                                <span style="display:inline-block; font-size:18px; font-weight:700; line-height:1; background: linear-gradient(135deg, #C4B5FD 0%, #A78BFA 100%); background-size: 220% 100%; animation: lavender-flow 3s linear infinite; -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; color:#A78BFA;">Attempt Signal</span>
+                            </div>
                         </td>
                     </tr>
                     
@@ -471,7 +492,7 @@ export const STOCK_ALERT_UPPER_EMAIL_TEMPLATE = `<!DOCTYPE html>
                             
                             <!-- Success Message -->
                             <div style="background-color: #050505; border: 1px solid #374151; border-radius: 8px; padding: 20px; margin-bottom: 30px;">
-                                <h3 style="margin: 0 0 8px 0; font-size: 18px; font-weight: 600; color: #E8BA40;">
+                                <h3 style="margin: 0 0 8px 0; font-size: 18px; font-weight: 600; color: #A78BFA;">
                                     Opportunity Alert!
                                 </h3>
                                 <p class="mobile-text" style="margin: 0; font-size: 14px; line-height: 1.5; color: #ccdadc;">
@@ -483,7 +504,7 @@ export const STOCK_ALERT_UPPER_EMAIL_TEMPLATE = `<!DOCTYPE html>
                             <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="margin-bottom: 30px;">
                                 <tr>
                                     <td align="center">
-                                        <a href="https://stock-market-dev.vercel.app/" style="display: block; width: 100%; max-width: 100%; box-sizing: border-box; color: #000000; background-color: #E8BA40; text-decoration: none; padding: 16px 32px; border-radius: 8px; font-size: 16px; font-weight: 500; line-height: 1; text-align: center;">
+                                        <a href="https://attempt-signal.vercel.app/" style="display: block; width: 100%; max-width: 100%; box-sizing: border-box; color: #000000; background-color: #A78BFA; text-decoration: none; padding: 16px 32px; border-radius: 8px; font-size: 16px; font-weight: 500; line-height: 1; text-align: center;">
                                             View Dashboard
                                         </a>
                                     </td>
@@ -497,7 +518,7 @@ export const STOCK_ALERT_UPPER_EMAIL_TEMPLATE = `<!DOCTYPE html>
                                 </p>
                                 <p style="margin: 0 0 10px 0; font-size: 14px; line-height: 1.5; color: #CCDADC !important;">
                                     <a href="#" style="color: #CCDADC !important; text-decoration: underline;">Unsubscribe</a> | 
-                                    <a href="https://Attempt Signal.app" style="color: #CCDADC !important; text-decoration: underline;">Visit Attempt Signal</a>
+                                    <a href="https://attempt-signal.vercel.appnal.app" style="color: #CCDADC !important; text-decoration: underline;">Visit Attempt Signal</a>
                                 </p>
                                 <p style="margin: 0; font-size: 14px; line-height: 1.5; color: #CCDADC !important;">
                                     © 2025 Attempt Signal
@@ -608,6 +629,10 @@ export const STOCK_ALERT_LOWER_EMAIL_TEMPLATE = `<!DOCTYPE html>
                 font-size: 24px !important;
             }
         }
+              @keyframes lavender-flow {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 220% 50%; }
+        }
     </style>
 </head>
 <body style="margin: 0; padding: 0; background-color: #050505; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
@@ -619,7 +644,10 @@ export const STOCK_ALERT_LOWER_EMAIL_TEMPLATE = `<!DOCTYPE html>
                     <!-- Header with Logo -->
                     <tr>
                         <td align="left" class="mobile-header-padding" style="padding: 40px 40px 20px 40px;">
-                            <img src="https://ik.imagekit.io/a6fkjou7d/logo.png?updatedAt=1756378431634" alt="Attempt Signal Logo" width="150" style="max-width: 100%; height: auto;">
+                            <div style="display:flex; align-items:center; gap:10px;">
+                                <img src="https://ytyphwdbdyef0ovb.public.blob.vercel-storage.com/logo.svg" alt="Attempt Signal Logo" width="36" height="36" style="display:block; width:36px; height:36px;">
+                                <span style="display:inline-block; font-size:18px; font-weight:700; line-height:1; background: linear-gradient(135deg, #C4B5FD 0%, #A78BFA 100%); background-size: 220% 100%; animation: lavender-flow 3s linear infinite; -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; color:#A78BFA;">Attempt Signal</span>
+                            </div>
                         </td>
                     </tr>
                     
@@ -680,7 +708,7 @@ export const STOCK_ALERT_LOWER_EMAIL_TEMPLATE = `<!DOCTYPE html>
                             
                             <!-- Opportunity Message -->
                             <div style="background-color: #050505; border: 1px solid #374151; border-radius: 8px; padding: 20px; margin-bottom: 30px;">
-                                <h3 style="margin: 0 0 8px 0; font-size: 18px; font-weight: 600; color: #E8BA40;">
+                                <h3 style="margin: 0 0 8px 0; font-size: 18px; font-weight: 600; color: #A78BFA;">
                                     Price Dropped
                                 </h3>
                                 <p class="mobile-text" style="margin: 0; font-size: 14px; line-height: 1.5; color: #ccdadc;">
@@ -692,7 +720,7 @@ export const STOCK_ALERT_LOWER_EMAIL_TEMPLATE = `<!DOCTYPE html>
                             <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="margin-bottom: 30px;">
                                 <tr>
                                     <td align="center">
-                                        <a href="https://stock-market-dev.vercel.app/" style="display: block; width: 100%; max-width: 100%; box-sizing: border-box; background-color: #E8BA40; color: #000000; text-decoration: none; padding: 16px 32px; border-radius: 8px; font-size: 16px; font-weight: 500; line-height: 1; text-align: center;">
+                                        <a href="https://attempt-signal.vercel.app/" style="display: block; width: 100%; max-width: 100%; box-sizing: border-box; background-color: #A78BFA; color: #000000; text-decoration: none; padding: 16px 32px; border-radius: 8px; font-size: 16px; font-weight: 500; line-height: 1; text-align: center;">
                                             View Dashboard
                                         </a>
                                     </td>
@@ -706,7 +734,7 @@ export const STOCK_ALERT_LOWER_EMAIL_TEMPLATE = `<!DOCTYPE html>
                                 </p>
                                 <p style="margin: 0 0 10px 0; font-size: 14px; line-height: 1.5; color: #CCDADC !important;">
                                     <a href="#" style="color: #CCDADC !important; text-decoration: underline;">Unsubscribe</a> | 
-                                    <a href="https://Attempt Signal.app" style="color: #CCDADC !important; text-decoration: underline;">Visit Attempt Signal</a>
+                                    <a href="https://attempt-signal.vercel.appnal.app" style="color: #CCDADC !important; text-decoration: underline;">Visit Attempt Signal</a>
                                 </p>
                                 <p style="margin: 0; font-size: 14px; line-height: 1.5; color: #CCDADC !important;">
                                     © 2025 Attempt Signal
@@ -808,6 +836,10 @@ export const VOLUME_ALERT_EMAIL_TEMPLATE = `<!DOCTYPE html>
                 font-size: 24px !important;
             }
         }
+              @keyframes lavender-flow {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 220% 50%; }
+        }
     </style>
 </head>
 <body style="margin: 0; padding: 0; background-color: #050505; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
@@ -819,7 +851,10 @@ export const VOLUME_ALERT_EMAIL_TEMPLATE = `<!DOCTYPE html>
                     <!-- Header with Logo -->
                     <tr>
                         <td align="left" class="mobile-header-padding" style="padding: 40px 40px 20px 40px;">
-                            <img src="https://ik.imagekit.io/a6fkjou7d/logo.png?updatedAt=1756378431634" alt="Attempt Signal Logo" width="150" style="max-width: 100%; height: auto;">
+                            <div style="display:flex; align-items:center; gap:10px;">
+                                <img src="https://ytyphwdbdyef0ovb.public.blob.vercel-storage.com/logo.svg" alt="Attempt Signal Logo" width="36" height="36" style="display:block; width:36px; height:36px;">
+                                <span style="display:inline-block; font-size:18px; font-weight:700; line-height:1; background: linear-gradient(135deg, #C4B5FD 0%, #A78BFA 100%); background-size: 220% 100%; animation: lavender-flow 3s linear infinite; -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; color:#A78BFA;">Attempt Signal</span>
+                            </div>
                         </td>
                     </tr>
                     
@@ -905,7 +940,7 @@ export const VOLUME_ALERT_EMAIL_TEMPLATE = `<!DOCTYPE html>
                             <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="margin-bottom: 30px;">
                                 <tr>
                                     <td align="center">
-                                        <a href="https://stock-market-dev.vercel.app/" style="display: inline-block; background-color: #E8BA40; color: #ffffff; text-decoration: none; padding: 14px 28px; border-radius: 8px; font-size: 16px; font-weight: 500; line-height: 1;">
+                                        <a href="https://attempt-signal.vercel.app/" style="display: inline-block; background-color: #A78BFA; color: #ffffff; text-decoration: none; padding: 14px 28px; border-radius: 8px; font-size: 16px; font-weight: 500; line-height: 1;">
                                             View Dashboard
                                         </a>
                                     </td>
@@ -926,7 +961,7 @@ export const VOLUME_ALERT_EMAIL_TEMPLATE = `<!DOCTYPE html>
                                 </p>
                                 <p style="margin: 0 0 10px 0; font-size: 14px; line-height: 1.5; color: #CCDADC !important;">
                                     <a href="#" style="color: #CCDADC !important; text-decoration: underline;">Unsubscribe</a> | 
-                                    <a href="https://Attempt Signal.app" style="color: #CCDADC !important; text-decoration: underline;">Visit Attempt Signal</a>
+                                    <a href="https://attempt-signal.vercel.appnal.app" style="color: #CCDADC !important; text-decoration: underline;">Visit Attempt Signal</a>
                                 </p>
                                 <p style="margin: 0; font-size: 14px; line-height: 1.5; color: #CCDADC !important;">
                                     © 2025 Attempt Signal
@@ -1031,6 +1066,10 @@ export const INACTIVE_USER_REMINDER_EMAIL_TEMPLATE = `<!DOCTYPE html>
                 padding: 15px 15px 8px 15px !important;
             }
         }
+              @keyframes lavender-flow {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 220% 50%; }
+        }
     </style>
 </head>
 <body style="margin: 0; padding: 0; background-color: #050505; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
@@ -1042,7 +1081,10 @@ export const INACTIVE_USER_REMINDER_EMAIL_TEMPLATE = `<!DOCTYPE html>
                     <!-- Header with Logo -->
                     <tr>
                         <td align="left" class="mobile-header-padding" style="padding: 40px 40px 20px 40px;">
-                            <img src="https://ik.imagekit.io/a6fkjou7d/logo.png?updatedAt=1756378431634" alt="Attempt Signal Logo" width="150" style="max-width: 100%; height: auto;">
+                            <div style="display:flex; align-items:center; gap:10px;">
+                                <img src="https://ytyphwdbdyef0ovb.public.blob.vercel-storage.com/logo.svg" alt="Attempt Signal Logo" width="36" height="36" style="display:block; width:36px; height:36px;">
+                                <span style="display:inline-block; font-size:18px; font-weight:700; line-height:1; background: linear-gradient(135deg, #C4B5FD 0%, #A78BFA 100%); background-size: 220% 100%; animation: lavender-flow 3s linear infinite; -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; color:#A78BFA;">Attempt Signal</span>
+                            </div>
                         </td>
                     </tr>
                     
@@ -1051,7 +1093,7 @@ export const INACTIVE_USER_REMINDER_EMAIL_TEMPLATE = `<!DOCTYPE html>
                         <td class="mobile-padding" style="padding: 40px 40px 40px 40px;">
                             
                             <!-- Welcome Back Heading -->
-                            <h1 class="mobile-title dark-text" style="margin: 0 0 15px 0; font-size: 28px; font-weight: 600; background: linear-gradient(135deg, #FDD458 0%, #E8BA40 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; color: #FDD458; line-height: 1.2;">
+                            <h1 class="mobile-title dark-text" style="margin: 0 0 15px 0; font-size: 28px; font-weight: 600; background: linear-gradient(135deg, #C4B5FD 0%, #A78BFA 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; color: #C4B5FD; line-height: 1.2;">
                                 We Miss You, {{name}}!
                             </h1>
                             
@@ -1062,7 +1104,7 @@ export const INACTIVE_USER_REMINDER_EMAIL_TEMPLATE = `<!DOCTYPE html>
 
                             <!-- Additional Motivation -->
                             <div class="dark-info-box" style="background-color: #050505; border: 1px solid #374151; border-radius: 8px; padding: 20px; margin-bottom: 30px;">
-                                <h3 style="margin: 0 0 8px 0; font-size: 18px; font-weight: 600; color: #E8BA40;">
+                                <h3 style="margin: 0 0 8px 0; font-size: 18px; font-weight: 600; color: #A78BFA;">
                                     Market Update
                                 </h3>
                                 <p class="mobile-text" style="margin: 0; font-size: 14px; line-height: 1.5; color: #ccdadc;">
@@ -1079,7 +1121,7 @@ export const INACTIVE_USER_REMINDER_EMAIL_TEMPLATE = `<!DOCTYPE html>
                             <table role="presentation" cellspacing="0" cellpadding="0" border="0" style="margin: 0 0 20px 0; width: 100%;">
                                 <tr>
                                     <td align="center" class="mobile-button">
-                                        <a href="{{dashboardUrl}}" style="display: inline-block; background: #E8BA40; color: #000000; text-decoration: none; padding: 16px 32px; border-radius: 8px; font-size: 16px; font-weight: 500; line-height: 1; text-align: center;  width: 100%;">
+                                        <a href="{{dashboardUrl}}" style="display: inline-block; background: #A78BFA; color: #000000; text-decoration: none; padding: 16px 32px; border-radius: 8px; font-size: 16px; font-weight: 500; line-height: 1; text-align: center;  width: 100%;">
                                             Return to Dashboard
                                         </a>
                                     </td>

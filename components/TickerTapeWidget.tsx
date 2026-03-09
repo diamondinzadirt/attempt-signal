@@ -2,6 +2,7 @@
 
 import { memo, useMemo } from 'react';
 import TradingViewWidget from '@/components/TradingViewWidget';
+import { cn } from '@/lib/utils';
 
 interface TickerTapeWidgetProps {
   symbols?: Array<{
@@ -42,12 +43,13 @@ const TickerTapeWidget = ({
   );
 
   return (
-    <div className="tradingview-widget-container w-full">
+    <div className="ticker-tape-widget tradingview-widget-container w-full">
       <TradingViewWidget
         scriptUrl="https://s3.tradingview.com/external-embedding/embed-widget-tickers.js"
         config={tickerConfig}
-        className={className}
+        className={cn('w-full ticker-mobile-track', className)}
         height={height}
+      
       />
       <div className="tradingview-widget-copyright mt-1 text-xs text-gray-400">
         <a

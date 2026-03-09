@@ -143,7 +143,7 @@
 
 @layer utilities {
   .brand-title {
-    @apply flex flex-col leading-none text-[11px] sm:text-xs md:text-sm font-semibold tracking-[0.14em] lowercase select-none;
+    @apply flex flex-col leading-none text-[11px] sm:text-xs md:text-sm font-semibold tracking-[0.14em] select-none;
   }
   .brand-word {
     @apply bg-gradient-to-r from-lavender-400 via-violet-300 to-lavender-500 bg-clip-text text-transparent;
@@ -284,7 +284,7 @@
     @apply text-gray-500 mb-6 max-w-md;
   }
   .watchlist-container {
-    @apply flex flex-col-reverse lg:grid lg:grid-cols-3 gap-8;
+    @apply flex flex-col lg:grid lg:grid-cols-3 gap-8;
   }
   .watchlist {
     @apply lg:col-span-2 space-y-8;
@@ -457,6 +457,24 @@
 .tradingview-widget-container iframe {
   background-color: #141414 !important;
   width: 100% !important;
+}
+
+@media only screen and (max-width: 767px) {
+  .ticker-mobile-track {
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .ticker-mobile-track .tradingview-widget-container,
+  .ticker-mobile-track .tradingview-widget-container__widget,
+  .ticker-mobile-track iframe {
+    min-width: 760px !important;
+  }
+
+  .ticker-mobile-track iframe {
+    width: 760px !important;
+  }
 }
 
 .custom-chart.tradingview-widget-container iframe {

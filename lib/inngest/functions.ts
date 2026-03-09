@@ -6,6 +6,11 @@ import { getWatchlistSymbolsByEmail } from "@/lib/actions/watchlist.actions";
 import { getNews } from "@/lib/actions/finnhub.actions";
 import { getFormattedTodayDate } from "@/lib/utils";
 
+// Strip unsupported chars so generated step IDs remain stable and valid.
+function sanitizeId(input: string) {
+    return input.replace(/[^a-zA-Z0-9]/g, '');
+}
+
 export const sendSignUpEmail = inngest.createFunction(
     { id: 'sign-up-email' },
     { event: 'app/user.created'},
@@ -59,25 +64,27 @@ export const sendDailyNewsSummary = inngest.createFunction(
 
         // Step #2: For each user, get watchlist symbols -> fetch news (fallback to general)
         const results = await step.run('fetch-user-news', async () => {
-            const perUser: Array<{ user: UserForNewsEmail; articles: MarketNewsArticle[] }> = [];
-            for (const user of users as UserForNewsEmail[]) {
-                try {
-                    const symbols = await getWatchlistSymbolsByEmail(user.email);
-                    let articles = await getNews(symbols);
-                    // Enforce max 6 articles per user
-                    articles = (articles || []).slice(0, 6);
-                    // If still empty, fallback to general
-                    if (!articles || articles.length === 0) {
-                        articles = await getNews();
-                        articles = (articles || []).slice(0, 6);
+            // Process users in parallel while isolating errors per user.
+            return await Promise.all(
+                (users as UserForNewsEmail[]).map(async (user) => {
+                    try {
+                        const symbols = await getWatchlistSymbolsByEmail(user.email);
+                        // Defensively default news responses before slicing.
+                        let articles = (await getNews(symbols)) ?? [];
+                        // Enforce max 6 articles per user
+                        articles = articles.slice(0, 6);
+                        // If still empty, fallback to general
+                        if (articles.length === 0) {
+                            articles = (await getNews()) ?? [];
+                            articles = articles.slice(0, 6);
+                        }
+                        return { user, articles };
+                    } catch (e) {
+                        console.error('daily-news: error preparing user news', user.email, e);
+                        return { user, articles: [] };
                     }
-                    perUser.push({ user, articles });
-                } catch (e) {
-                    console.error('daily-news: error preparing user news', user.email, e);
-                    perUser.push({ user, articles: [] });
-                }
-            }
-            return perUser;
+                })
+            );
         });
 
         // Step #3: (placeholder) Summarize news via AI
@@ -87,7 +94,7 @@ export const sendDailyNewsSummary = inngest.createFunction(
                 try {
                     const prompt = NEWS_SUMMARY_EMAIL_PROMPT.replace('{{newsData}}', JSON.stringify(articles, null, 2));
 
-                    const response = await step.ai.infer(`summarize-news-${user.email}`, {
+                    const response = await step.ai.infer(`summarize-news-${sanitizeId(user.email)}`, {
                         model: step.ai.models.gemini({ model: 'gemini-2.5-flash-lite' }),
                         body: {
                             contents: [{ role: 'user', parts: [{ text:prompt }]}]

@@ -12,13 +12,17 @@ const Layout = async ({ children }: { children : React.ReactNode }) => {
     return (
         <main className="auth-layout">
             <section className="auth-left-section scrollbar-hide-default">
-                <Link href="/" className="auth-logo">
+                <Link href="/" className="auth-logo flex w-fit items-center gap-2 sm:gap-3">
                     <Image src="/assets/icons/logo.svg" alt="Attempt Signal logo" width={140} height={32} className='h-8 w-auto' />
+                    <span className="brand-title" aria-label="ATTEMPT SIGNAL">
+                        <span className="brand-word">ATTEMPT</span>
+                        <span className="brand-word">SIGNAL</span>
+                    </span>
                 </Link>
 
                  <div className="z-10 relative lg:mt-4 lg:mb-16">
                     <p className="auth-blockquote">
-                        Attempt Signal turns your watchlist into a winning list. The alerts are spot-on, with AI summarized messgaes of moves in the market.
+                        Attempt Signal turns your watchlist into a winning list. The alerts are spot-on, with AI summarized information of moves in the market.
                     </p>
                     
                 </div>

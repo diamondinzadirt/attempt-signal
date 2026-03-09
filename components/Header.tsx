@@ -10,9 +10,9 @@ const Header = async ({ user }: { user: User }) => {
             <div className="container header-wrapper gap-4">
                 <Link href="/" className="flex items-center gap-2 sm:gap-3">
                     <Image src="/assets/icons/logo.svg" alt="Attempt Signal logo" width={140} height={32} className="h-8 w-auto cursor-pointer" />
-                    <span className="brand-title" aria-label="attempt signal">
-                        <span className="brand-word">attempt</span>
-                        <span className="brand-word">signal</span>
+                    <span className="brand-title" aria-label="ATTEMPT SIGNAL">
+                        <span className="brand-word">ATTEMPT</span>
+                        <span className="brand-word">SIGNAL</span>
                     </span>
                 </Link>
 
