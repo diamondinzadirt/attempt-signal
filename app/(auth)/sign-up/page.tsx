@@ -46,7 +46,10 @@ const SignUp = () => {
 
     return (
         <>
-            <h1 className="form-title">Sign Up & Personalize</h1>
+            <h1 className="form-title">
+                <span className="lg:hidden">Create your account</span>
+                <span className="hidden lg:inline">Sign Up & Personalize</span>
+            </h1>
 
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
                 <InputField
@@ -61,7 +64,7 @@ const SignUp = () => {
                 <InputField
                     name="email"
                     label="Email"
-                    placeholder="jasonbourne@gmail.com"
+                    placeholder="agent_tasie@gmail.com"
                     register={register}
                     error={errors.email}
                     validation={{ required: 'Email name is required', pattern: /^\w+@\w+\.\w+$/, message: 'Email address is required' }}

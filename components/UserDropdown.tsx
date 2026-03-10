@@ -14,7 +14,6 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import {useRouter} from "next/navigation";
 import {Button} from "@/components/ui/button";
 import {ChevronDown, LogOut} from "lucide-react";
-import NavItems from "@/components/NavItems";
 import NavbarSearchBar from "@/components/NavbarSearchBar";
 import {signOut} from "@/lib/actions/auth.actions";
 import { NAV_ITEMS } from "@/lib/constants";
@@ -50,21 +49,24 @@ const UserDropdown = ({ user }: {user: User }) => {
             </div>
 
             <Dialog open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
-                <DialogContent className="sm:hidden border-gray-600 bg-gray-800 px-4 py-5 text-gray-100">
+                <DialogContent className="sm:hidden top-0 left-0 h-dvh w-screen max-w-none translate-x-0 translate-y-0 rounded-none border-none bg-gray-900/85 px-4 py-6 text-gray-100 backdrop-blur-md data-[state=open]:slide-in-from-top-2 data-[state=closed]:slide-out-to-top-2">
                     <DialogTitle className="sr-only">Mobile navigation menu</DialogTitle>
                     <DialogDescription className="sr-only">
                         Quick actions for search, navigation, and account sign out.
                     </DialogDescription>
 
-                    <div className="space-y-4">
-                        <NavbarSearchBar className="max-w-none" />
+                    <div className="flex h-full flex-col">
+                        <div className="pb-4">
+                            <p className="mb-2 text-xs font-medium uppercase tracking-wide text-gray-500">Search</p>
+                            <NavbarSearchBar className="max-w-none" searchOnFocus={false} searchOnEmptyQuery={false} />
+                        </div>
 
-                        <nav className="flex flex-col gap-2">
+                        <nav className="flex flex-col gap-2 pt-2">
                             {NAV_ITEMS.map(({ href, label }) => (
                                 <Link
                                     key={href}
                                     href={href}
-                                    className="flex h-11 items-center rounded-md px-3 text-base font-medium text-gray-200 hover:bg-gray-700 hover:text-violet-400"
+                                    className="flex h-12 items-center rounded-md px-3 text-base font-medium text-gray-200 hover:bg-gray-700 hover:text-violet-400"
                                     onClick={() => setMobileMenuOpen(false)}
                                 >
                                     {label}
@@ -72,11 +74,11 @@ const UserDropdown = ({ user }: {user: User }) => {
                             ))}
                         </nav>
 
-                        <div className="border-t border-gray-600 pt-3">
+                        <div className="mt-auto border-t border-gray-600 pt-4">
                             <button
                                 type="button"
                                 onClick={handleSignOut}
-                                className="flex h-11 w-full items-center rounded-md px-3 text-base font-medium text-gray-100 hover:bg-gray-700 hover:text-violet-400"
+                                className="flex h-12 w-full items-center rounded-md px-3 text-base font-medium text-gray-100 hover:bg-gray-700 hover:text-violet-400"
                             >
                                 <LogOut className="mr-2 h-4 w-4" />
                                 Logout
@@ -125,13 +127,6 @@ const UserDropdown = ({ user }: {user: User }) => {
                             <LogOut className="h-4 w-4 mr-2 hidden sm:block" />
                             Logout
                         </DropdownMenuItem>
-                        <DropdownMenuSeparator className="hidden sm:block bg-gray-600"/>
-                        <nav className="sm:hidden">
-                            <div className="px-2 py-2">
-                                <NavbarSearchBar />
-                            </div>
-                            <NavItems />
-                        </nav>
                     </DropdownMenuContent>
                 </DropdownMenu>
             </div>

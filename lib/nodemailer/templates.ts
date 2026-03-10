@@ -1,3 +1,60 @@
+export const RESET_PASSWORD_EMAIL_TEMPLATE = `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reset your password</title>
+    <style>
+        @media only screen and (max-width: 600px) {
+            .container {
+                width: 100% !important;
+            }
+            .content {
+                padding: 22px !important;
+            }
+        }
+        @keyframes lavender-flow {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 220% 50%; }
+        }
+    </style>
+</head>
+<body style="margin:0; padding:0; background:#050505; font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#050505; padding:24px 12px;">
+        <tr>
+            <td align="center">
+                <table role="presentation" class="container" width="100%" cellspacing="0" cellpadding="0" border="0" style="max-width:600px; background:#141414; border:1px solid #30333A; border-radius:10px;">
+                    <tr>
+                        <td class="content" style="padding:32px;">
+                            <div style="display:flex; align-items:center; gap:10px; margin-bottom:24px;">
+                                <img src="https://ytyphwdbdyef0ovb.public.blob.vercel-storage.com/logo.svg" alt="Attempt Signal Logo" width="36" height="36" style="display:block; width:36px; height:36px;">
+                                <span style="display:inline-block; font-size:18px; font-weight:700; line-height:1; background:linear-gradient(135deg, #C4B5FD 0%, #A78BFA 100%); background-size:220% 100%; animation:lavender-flow 3s linear infinite; -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; color:#A78BFA;">Attempt Signal</span>
+                            </div>
+
+                            <h1 style="margin:0 0 14px; color:#C4B5FD; font-size:24px; line-height:1.2; font-weight:600;">Reset your password</h1>
+                            <p style="margin:0 0 20px; color:#CCDADC; font-size:15px; line-height:1.6;">
+                                Hi {{name}}, we received a request to reset your password.
+                            </p>
+                            <p style="margin:0 0 26px; color:#9095A1; font-size:14px; line-height:1.6;">
+                                If this was you, use the button below to choose a new password. This link expires soon for your security.
+                            </p>
+
+                            <a href="{{resetUrl}}" style="display:inline-block; background:linear-gradient(135deg, #C4B5FD 0%, #A78BFA 100%); color:#050505; text-decoration:none; padding:12px 18px; border-radius:8px; font-size:14px; font-weight:600;">
+                                Reset Password
+                            </a>
+
+                            <p style="margin:24px 0 0; color:#9095A1; font-size:13px; line-height:1.6;">
+                                If you did not request this, you can safely ignore this email.
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>`;
+
 export const WELCOME_EMAIL_TEMPLATE = `<!DOCTYPE html>
 <html lang="en">
 <head>

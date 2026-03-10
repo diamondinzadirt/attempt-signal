@@ -10,9 +10,15 @@ import { cn } from '@/lib/utils';
 
 interface NavbarSearchBarProps {
   className?: string;
+  searchOnFocus?: boolean;
+  searchOnEmptyQuery?: boolean;
 }
 
-const NavbarSearchBar = ({ className }: NavbarSearchBarProps) => {
+const NavbarSearchBar = ({
+  className,
+  searchOnFocus = true,
+  searchOnEmptyQuery = true,
+}: NavbarSearchBarProps) => {
   const wrapperRef = useRef<HTMLDivElement | null>(null);
   const [query, setQuery] = useState('');
   const [open, setOpen] = useState(false);
@@ -20,11 +26,17 @@ const NavbarSearchBar = ({ className }: NavbarSearchBarProps) => {
   const [stocks, setStocks] = useState<StockWithWatchlistStatus[]>([]);
 
   const fetchStocks = useCallback(async () => {
+    const trimmedQuery = query.trim();
     if (!open) return;
+    if (!searchOnEmptyQuery && !trimmedQuery) {
+      setStocks([]);
+      setLoading(false);
+      return;
+    }
 
     setLoading(true);
     try {
-      const results = await searchStocks(query.trim() || undefined);
+      const results = await searchStocks(trimmedQuery || undefined);
       setStocks(results.slice(0, 10));
     } catch (error) {
       console.error('navbar stock search error:', error);
@@ -32,7 +44,7 @@ const NavbarSearchBar = ({ className }: NavbarSearchBarProps) => {
     } finally {
       setLoading(false);
     }
-  }, [open, query]);
+  }, [open, query, searchOnEmptyQuery]);
 
   const debouncedFetch = useDebounce(fetchStocks, 250);
 
@@ -60,8 +72,16 @@ const NavbarSearchBar = ({ className }: NavbarSearchBarProps) => {
       <Search className="pointer-events-none absolute top-1/2 left-3 z-10 h-4 w-4 -translate-y-1/2 text-gray-500" />
       <Input
         value={query}
-        onFocus={() => setOpen(true)}
-        onChange={(event) => setQuery(event.target.value)}
+        onFocus={() => {
+          if (searchOnFocus) setOpen(true);
+        }}
+        onChange={(event) => {
+          const value = event.target.value;
+          setQuery(value);
+          if (!searchOnEmptyQuery) {
+            setOpen(Boolean(value.trim()));
+          }
+        }}
         placeholder="Search stocks..."
         className="h-10 border-gray-600 bg-gray-800 pl-10 text-gray-100 placeholder:text-gray-500 focus-visible:border-violet-500 focus-visible:ring-0"
       />
@@ -103,4 +123,3 @@ const NavbarSearchBar = ({ className }: NavbarSearchBarProps) => {
 };
 
 export default NavbarSearchBar;
-

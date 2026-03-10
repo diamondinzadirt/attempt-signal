@@ -178,11 +178,22 @@
   .auth-left-section {
     @apply w-full lg:w-[45%] lg:h-screen px-6 lg:px-16 flex flex-col overflow-y-auto;
   }
+  .auth-mobile-hero-glow {
+    @apply pointer-events-none absolute left-1/2 top-2 z-0 h-[380px] w-[380px] -translate-x-1/2 rounded-full;
+    background: radial-gradient(
+      circle at center,
+      rgba(167, 139, 250, 0.28) 0%,
+      rgba(167, 139, 250, 0.18) 32%,
+      rgba(167, 139, 250, 0.08) 55%,
+      rgba(20, 20, 20, 0) 80%
+    );
+    filter: blur(18px);
+  }
   .auth-right-section {
     @apply w-full max-lg:border-t max-lg:border-gray-600 lg:w-[55%] lg:h-screen bg-gray-800 px-6 py-4 md:p-6 lg:py-12 lg:px-18 flex flex-col justify-start;
   }
   .auth-blockquote {
-    @apply text-sm md:text-xl lg:text-2xl font-medium text-gray-400 mb-1 md:mb-6 lg:mb-8;
+    @apply text-[13px] leading-6 font-normal text-gray-500 mb-7 md:text-xl md:leading-relaxed md:font-medium md:text-gray-400 md:mb-6 lg:text-2xl lg:mb-8;
   }
   .auth-testimonial-author {
     @apply text-xs md:text-lg font-bold text-gray-400 not-italic;
@@ -191,7 +202,7 @@
     @apply border-6 border-gray-800 left-0 hidden w-[1024px] h-auto max-w-none lg:block rounded-xl shadow-2xl;
   }
   .form-title {
-    @apply text-4xl font-bold text-gray-400 mb-10;
+    @apply text-3xl font-semibold text-gray-300 mb-8 sm:text-4xl sm:font-bold sm:text-gray-400 sm:mb-10;
   }
   .form-label {
     @apply text-sm font-medium text-gray-400;

@@ -1,5 +1,6 @@
 import nodemailer from 'nodemailer';
 import {
+  RESET_PASSWORD_EMAIL_TEMPLATE,
   WELCOME_EMAIL_TEMPLATE,
   NEWS_SUMMARY_EMAIL_TEMPLATE,
 } from "@/lib/nodemailer/templates";
@@ -26,6 +27,27 @@ export const sendWelcomeEmail = async ({
     to: email,
     subject: `Welcome to Attempt Signal - your stock market toolkit is ready!`,
     text: 'Thanks for joining Attempt Signal',
+    html: htmlTemplate,
+  };
+
+  await transporter.sendMail(mailOptions);
+};
+
+export const sendResetPasswordEmail = async ({
+  email,
+  name,
+  resetUrl,
+}: ResetPasswordEmailData): Promise<void> => {
+  const safeName = (name || 'there').trim();
+  const htmlTemplate = RESET_PASSWORD_EMAIL_TEMPLATE
+    .replace('{{name}}', safeName)
+    .replace('{{resetUrl}}', resetUrl);
+
+  const mailOptions = {
+    from: `"Attempt Signal Security" <${process.env.NODEMAILER_EMAIL}>`,
+    to: email,
+    subject: 'Reset your Attempt Signal password',
+    text: `Reset your password using this link: ${resetUrl}`,
     html: htmlTemplate,
   };
 

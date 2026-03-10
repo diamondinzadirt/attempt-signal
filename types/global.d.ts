@@ -4,6 +4,15 @@ declare global {
         password: string;
     };
 
+    type ForgotPasswordFormData = {
+        email: string;
+    };
+
+    type ResetPasswordFormData = {
+        token: string;
+        newPassword: string;
+    };
+
     type SignUpFormData = {
         fullName: string;
         email: string;
@@ -65,6 +74,12 @@ declare global {
         email: string;
         name: string;
         intro: string;
+    };
+
+    type ResetPasswordEmailData = {
+        email: string;
+        name?: string | null;
+        resetUrl: string;
     };
 
     type User = {

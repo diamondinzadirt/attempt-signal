@@ -38,7 +38,10 @@ export type WatchlistSnapshotStock = {
 export type WatchlistSuggestionStock = {
   symbol: string;
   company: string;
+  currentPrice?: number;
   changePercent?: number;
+  volume?: number;
+  industry?: string;
   reason: string;
 };
 
@@ -254,7 +257,10 @@ export async function getCurrentUserWatchlistSnapshot(): Promise<WatchlistSnapsh
         return {
           symbol: item.symbol,
           company: item.company,
+          currentPrice: item.currentPrice,
           changePercent: item.changePercent,
+          volume: item.volume,
+          industry: item.industry,
           reason,
         };
       });

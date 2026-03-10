@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
 import InputField from '@/components/forms/InputField';
@@ -37,13 +38,16 @@ const SignIn = () => {
 
     return (
         <>
-            <h1 className="form-title">Welcome back</h1>
+            <div className="mb-8 sm:mb-10">
+                <h1 className="form-title !mb-2">Welcome back</h1>
+                <p className="text-sm font-normal text-gray-500 lg:hidden">Track your watchlist and get AI alerts.</p>
+            </div>
 
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
                 <InputField
                     name="email"
                     label="Email"
-                    placeholder="jasonbourne@gmail.com"
+                    placeholder="agent_tasie@gmail.com"
                     register={register}
                     error={errors.email}
                     validation={{ required: 'Email is required', pattern: /^\w+@\w+\.\w+$/ }}
@@ -58,6 +62,11 @@ const SignIn = () => {
                     error={errors.password}
                     validation={{ required: 'Password is required', minLength: 8 }}
                 />
+                <div className="-mt-2 text-right">
+                    <Link href="/forgot-password" className="text-sm text-violet-400 hover:text-violet-300">
+                        Forgot password?
+                    </Link>
+                </div>
 
                 <Button type="submit" disabled={isSubmitting} className="yellow-btn w-full mt-5">
                     {isSubmitting ? 'Signing In' : 'Sign In'}

@@ -35,6 +35,13 @@ const getChangeColor = (value?: number) => {
   return 'text-violet-500';
 };
 
+const getChangeArrow = (value?: number) => {
+  if (typeof value !== 'number') return '';
+  if (value > 0) return '↑';
+  if (value < 0) return '↓';
+  return '→';
+};
+
 const WatchlistPageClient = () => {
   const SWIPE_THRESHOLD = 90;
   const SWIPE_EXIT_X = 420;
@@ -316,7 +323,55 @@ const WatchlistPageClient = () => {
           </div>
         </div>
 
-        <div className="watchlist-table">
+        <div className="space-y-3 md:hidden">
+          {loading ? (
+            <div className="rounded-lg border border-gray-600/80 bg-gray-800 p-4 text-center text-sm text-gray-500">
+              <span className="inline-flex items-center gap-2">
+                <Loader2 className="h-4 w-4 animate-spin" />
+                Loading watchlist...
+              </span>
+            </div>
+          ) : filteredWatchlist.length > 0 ? (
+            filteredWatchlist.map((stock) => (
+              <div key={stock.symbol} className="rounded-lg border border-gray-600/80 bg-gray-800 p-3">
+                <div className="flex items-start gap-3">
+                  <Link href={`/stocks/${stock.symbol}`} className="min-w-0 flex-1 space-y-2 rounded-md p-0.5">
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="text-base font-semibold text-gray-100">{stock.symbol}</span>
+                    </div>
+                    <p className="truncate text-sm text-gray-500">{stock.company}</p>
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="text-sm font-medium text-gray-100">
+                        {typeof stock.currentPrice === 'number' ? formatPrice(stock.currentPrice) : 'N/A'}
+                      </span>
+                      <span className={cn('text-sm font-semibold', getChangeColor(stock.changePercent))}>
+                        {formatPercent(stock.changePercent)} {getChangeArrow(stock.changePercent)}
+                      </span>
+                    </div>
+                  </Link>
+
+                  <div className="shrink-0 pt-0.5">
+                    <WatchlistButton
+                      type="icon"
+                      symbol={stock.symbol}
+                      company={stock.company}
+                      isInWatchlist
+                      onWatchlistChange={handleWatchlistChanged}
+                    />
+                  </div>
+                </div>
+              </div>
+            ))
+          ) : (
+            <div className="rounded-lg border border-gray-600/80 bg-gray-800 p-4 text-center text-sm text-gray-500">
+              {snapshot.watchlist.length === 0
+                ? 'No stocks in your watchlist yet. Add stocks from Search or stock detail pages.'
+                : 'No stocks match your current search/filter.'}
+            </div>
+          )}
+        </div>
+
+        <div className="watchlist-table hidden md:block">
           <div className="overflow-x-auto">
             <table className="min-w-[760px] w-full">
               <thead>
@@ -396,7 +451,7 @@ const WatchlistPageClient = () => {
 
       <aside className="watchlist-alerts">
         <div className="w-full rounded-lg border border-gray-600 bg-gray-800 p-5">
-          <h2 className="text-lg font-semibold text-gray-100">Stock Suggestions</h2>
+          <h2 className="text-lg font-semibold text-gray-100">Watchlist Suggestions</h2>
           <p className="mt-2 text-sm text-gray-500">
             Suggestions from related holdings, sectors, and daily top performers.
           </p>
@@ -414,11 +469,11 @@ const WatchlistPageClient = () => {
 
                   <div className="relative h-[230px] overflow-hidden">
                   {nextSuggestion && (
-                    <div className="pointer-events-none absolute inset-y-3 left-7 right-0 rounded-lg border border-gray-600/70 bg-gray-700/20" />
+                    <div className="pointer-events-none absolute inset-y-3 left-7 right-0 rounded-lg border border-violet-500/35 bg-gray-700/20 shadow-[0_0_0_1px_rgba(167,139,250,0.18),0_0_14px_rgba(167,139,250,0.14)]" />
                   )}
                   <div
                     className={cn(
-                      'absolute inset-y-0 left-0 right-5 z-10 rounded-lg border border-gray-600/80 bg-gray-700/30 p-4 shadow-lg',
+                      'absolute inset-y-0 left-0 right-5 z-10 rounded-lg border border-violet-400/70 bg-gray-700/30 p-4 shadow-[0_0_0_1px_rgba(167,139,250,0.35),0_0_22px_rgba(167,139,250,0.28)]',
                       !isDraggingSuggestion && 'transition-transform duration-200 ease-out'
                     )}
                     style={{
@@ -442,6 +497,23 @@ const WatchlistPageClient = () => {
                         {formatPercent(activeSuggestion.changePercent)}
                       </span>
                     </div>
+                    <div className="mt-3 grid grid-cols-2 gap-2 text-xs">
+                      <div className="rounded-md border border-gray-600/70 bg-gray-800/55 px-2.5 py-2">
+                        <p className="text-[11px] uppercase tracking-wide text-gray-500">Price</p>
+                        <p className="mt-1 text-sm font-semibold text-gray-100">
+                          {typeof activeSuggestion.currentPrice === 'number' ? formatPrice(activeSuggestion.currentPrice) : 'N/A'}
+                        </p>
+                      </div>
+                      <div className="rounded-md border border-gray-600/70 bg-gray-800/55 px-2.5 py-2">
+                        <p className="text-[11px] uppercase tracking-wide text-gray-500">Volume</p>
+                        <p className="mt-1 text-sm font-semibold text-gray-100">{formatVolume(activeSuggestion.volume)}</p>
+                      </div>
+                    </div>
+                    {activeSuggestion.industry && (
+                      <p className="mt-2 text-xs text-violet-300">
+                        Sector: <span className="text-gray-300">{activeSuggestion.industry}</span>
+                      </p>
+                    )}
                     <p className="mt-3 text-xs text-gray-500">{activeSuggestion.reason}</p>
                     <p className="mt-6 text-xs text-gray-500">Swipe left to skip this suggestion.</p>
                   </div>
