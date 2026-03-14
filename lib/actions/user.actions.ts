@@ -2,7 +2,13 @@
 
 import {connectToDatabase} from "@/database/mongoose";
 
-export const getAllUsersForNewsEmail = async () => {
+export type UserForNewsEmail = {
+    id: string;
+    email: string;
+    name: string;
+};
+
+export const getAllUsersForNewsEmail = async (): Promise<UserForNewsEmail[]> => {
     try {
         const mongoose = await connectToDatabase();
         const db = mongoose.connection.db;
