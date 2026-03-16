@@ -5,13 +5,21 @@ import {
   NEWS_SUMMARY_EMAIL_TEMPLATE,
 } from "@/lib/nodemailer/templates";
 
-export const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: process.env.NODEMAILER_EMAIL!,
-    pass: process.env.NODEMAILER_PASSWORD!,
-  },
-});
+let transporter: nodemailer.Transporter | null = null;
+
+const getMailer = () => {
+  if (transporter) return transporter;
+
+  transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: process.env.NODEMAILER_EMAIL!,
+      pass: process.env.NODEMAILER_PASSWORD!,
+    },
+  });
+
+  return transporter;
+};
 
 export const sendWelcomeEmail = async ({
   email,
@@ -30,7 +38,7 @@ export const sendWelcomeEmail = async ({
     html: htmlTemplate,
   };
 
-  await transporter.sendMail(mailOptions);
+  await getMailer().sendMail(mailOptions);
 };
 
 export const sendResetPasswordEmail = async ({
@@ -51,7 +59,7 @@ export const sendResetPasswordEmail = async ({
     html: htmlTemplate,
   };
 
-  await transporter.sendMail(mailOptions);
+  await getMailer().sendMail(mailOptions);
 };
 
 export const sendNewsSummaryEmail = async ({
@@ -75,9 +83,5 @@ export const sendNewsSummaryEmail = async ({
     html: htmlTemplate,
   };
 
-  await transporter.sendMail(mailOptions);
+  await getMailer().sendMail(mailOptions);
 };
-
-
-await transporter.verify();
-console.log("Mailer is ready");
