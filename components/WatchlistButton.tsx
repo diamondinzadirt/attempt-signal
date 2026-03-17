@@ -3,6 +3,7 @@ import React, { useEffect, useMemo, useState, useTransition } from "react";
 import { addToWatchlist, removeFromWatchlist } from "@/lib/actions/watchlist.actions";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { Loader2 } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -124,20 +125,24 @@ const WatchlistButton = ({
           disabled={isPending}
           onClick={handleClick}
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill={added ? "#A78BFA" : "none"}
-            stroke="#A78BFA"
-            strokeWidth="1.5"
-            className="h-5 w-5"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.385a.563.563 0 00-.182-.557L3.04 10.385a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345l2.125-5.111z"
-            />
-          </svg>
+          {isPending ? (
+            <Loader2 className="h-5 w-5 animate-spin text-violet-400" />
+          ) : (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill={added ? "#A78BFA" : "none"}
+              stroke="#A78BFA"
+              strokeWidth="1.5"
+              className="h-5 w-5"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.385a.563.563 0 00-.182-.557L3.04 10.385a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345l2.125-5.111z"
+              />
+            </svg>
+          )}
         </button>
         {removeConfirmDialog}
       </>

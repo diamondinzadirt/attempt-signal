@@ -2,6 +2,7 @@ import { betterAuth } from "better-auth";
 import { mongodbAdapter} from "better-auth/adapters/mongodb";
 import { connectToDatabase} from "@/database/mongoose";
 import { nextCookies} from "better-auth/next-js";
+import { dash } from "@better-auth/infra";
 import type { Db } from "mongodb";
 
 const resolveAppBaseUrl = () => {
@@ -34,7 +35,10 @@ const createAuthInstance = (db: Db) => betterAuth({
             });
         },
     },
-    plugins: [nextCookies()],
+    plugins: [
+        nextCookies(),
+        dash({ apiKey: process.env.BETTER_AUTH_API_KEY }),
+    ],
 });
 
 let authInstance: ReturnType<typeof createAuthInstance> | null = null;

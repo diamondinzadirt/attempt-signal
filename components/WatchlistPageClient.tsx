@@ -144,6 +144,11 @@ const WatchlistPageClient = () => {
         });
         toast.error(response.message || 'Unable to update favorites');
       } else {
+        toast.success(
+          isFavorited
+            ? `${symbol} removed from your watchlist.`
+            : `${symbol} added to your watchlist.`
+        );
         reload();
       }
 
@@ -311,7 +316,11 @@ const WatchlistPageClient = () => {
                             aria-label={isFavorited ? `Remove ${symbol} from favorites` : `Add ${symbol} to favorites`}
                             title={isFavorited ? 'Unfavorite' : 'Favorite'}
                           >
-                            <Star className="h-4 w-4" fill={isFavorited ? 'currentColor' : 'none'} />
+                            {isPendingFavorite ? (
+                              <Loader2 className="h-4 w-4 animate-spin" />
+                            ) : (
+                              <Star className="h-4 w-4" fill={isFavorited ? 'currentColor' : 'none'} />
+                            )}
                           </button>
                         </li>
                       );

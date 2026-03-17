@@ -1,5 +1,6 @@
 'use client';
 
+import {useState} from "react";
 import {useForm} from "react-hook-form";
 import {Button} from "@/components/ui/button";
 import InputField from "@/components/forms/InputField";
@@ -14,6 +15,7 @@ import LoadingSpinner from '@/components/LoadingSpinner';
 
 const SignUp = () => {
     const router = useRouter()
+    const [isRedirecting, setIsRedirecting] = useState(false);
     const {
         register,
         handleSubmit,
@@ -35,7 +37,21 @@ const SignUp = () => {
     const onSubmit = async (data: SignUpFormData) => {
         try {
             const result = await signUpWithEmail(data);
-            if(result.success) router.push('/');
+            if (!result.success) {
+                toast.error('Sign up failed', {
+                    description: result.error || 'Failed to create an account.'
+                });
+                return;
+            }
+
+            setIsRedirecting(true);
+            toast.success('Account created successfully', {
+                description: 'Redirecting to your dashboard...'
+            });
+
+            await new Promise((resolve) => setTimeout(resolve, 900));
+            router.replace('/');
+            router.refresh();
         } catch (e) {
             console.error(e);
             toast.error('Sign up failed', {
@@ -119,13 +135,13 @@ const SignUp = () => {
                 />
 
                 <Button type="submit" disabled={isSubmitting} className="yellow-btn w-full mt-5">
-                    {isSubmitting ? 'Creating Account' : 'Start Your Investing Journey'}
+                    {isRedirecting ? 'Redirecting...' : isSubmitting ? 'Creating Account' : 'Start Your Investing Journey'}
                 </Button>
 
                 <FooterLink text="Already have an account?" linkText="Sign in" href="/sign-in" />
             </form>
 
-            {isSubmitting && <LoadingSpinner fullScreen label="Creating your account..." />}
+            {isSubmitting && <LoadingSpinner fullScreen label={isRedirecting ? "Account created. Redirecting..." : "Creating your account..."} />}
         </>
     )
 }

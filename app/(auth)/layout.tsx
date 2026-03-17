@@ -3,6 +3,8 @@ import Image from "next/image";
 import {auth} from "@/lib/better-auth/auth";
 import {headers} from "next/headers";
 import {redirect} from "next/navigation";
+import AuthPreviewImage from "@/components/AuthPreviewImage";
+import AppCopyright from "@/components/AppCopyright";
 
 const Layout = async ({ children }: { children : React.ReactNode }) => {
     const session = await auth.api.getSession({ headers: await headers() })
@@ -33,13 +35,12 @@ const Layout = async ({ children }: { children : React.ReactNode }) => {
                 </div>
 
                 <div className="relative z-10 pb-6 lg:pb-8 flex-1">{children}</div>
+                <AppCopyright className="relative z-10 pb-6 text-center lg:pb-8 lg:text-left" />
             </section>
 
             <section className="auth-right-section">
-               
-
                 <div className="flex-1 relative">
-                    <Image src="/assets/images/dashboard.png" alt="Dashboard Preview" width={1440} height={1150} className="auth-dashboard-preview absolute top-0" />
+                    <AuthPreviewImage />
                 </div>
             </section>
         </main>
