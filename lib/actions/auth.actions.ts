@@ -4,6 +4,15 @@ import {auth} from "@/lib/better-auth/auth";
 import {inngest} from "@/lib/inngest/client";
 import {headers} from "next/headers";
 
+const getActionErrorMessage = (error: unknown, fallback: string) => {
+    if (error instanceof Error && error.message) return error.message;
+    if (typeof error === 'object' && error && 'message' in error) {
+        const message = error.message;
+        if (typeof message === 'string' && message.trim()) return message;
+    }
+    return fallback;
+};
+
 const resolveAppBaseUrl = () => {
     const configuredUrl = process.env.NEXT_PUBLIC_APP_URL || process.env.BETTER_AUTH_URL || '';
     return configuredUrl.replace(/\/api\/auth\/?$/, '').replace(/\/$/, '');
@@ -23,7 +32,7 @@ export const signUpWithEmail = async ({ email, password, fullName, country, inve
         return { success: true, data: response }
     } catch (e) {
         console.log('Sign up failed', e)
-        return { success: false, error: 'Sign up failed' }
+        return { success: false, error: getActionErrorMessage(e, 'Sign up failed') }
     }
 }
 
@@ -34,7 +43,7 @@ export const signInWithEmail = async ({ email, password }: SignInFormData) => {
         return { success: true, data: response }
     } catch (e) {
         console.log('Sign in failed', e)
-        return { success: false, error: 'Sign in failed' }
+        return { success: false, error: getActionErrorMessage(e, 'Sign in failed') }
     }
 }
 

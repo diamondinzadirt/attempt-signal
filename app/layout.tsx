@@ -16,6 +16,11 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Attempt Signal",
   description: "Track real-time stock prices, get personalized alerts and explore detailed company insights.",
+  icons: {
+    icon: "/assets/icons/logo.svg",
+    shortcut: "/assets/icons/logo.svg",
+    apple: "/assets/icons/logo.svg",
+  },
 };
 
 export default function RootLayout({

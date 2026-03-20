@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
 import InputField from '@/components/forms/InputField';
@@ -12,6 +13,7 @@ import LoadingSpinner from '@/components/LoadingSpinner';
 
 const SignIn = () => {
     const router = useRouter()
+    const [isRedirecting, setIsRedirecting] = useState(false);
     const {
         register,
         handleSubmit,
@@ -27,7 +29,21 @@ const SignIn = () => {
     const onSubmit = async (data: SignInFormData) => {
         try {
             const result = await signInWithEmail(data);
-            if(result.success) router.push('/');
+            if (!result.success) {
+                toast.error('Sign in failed', {
+                    description: result.error || 'Failed to sign in.'
+                });
+                return;
+            }
+
+            setIsRedirecting(true);
+            toast.success('Signed in successfully', {
+                description: 'Redirecting to your dashboard...'
+            });
+
+            await new Promise((resolve) => setTimeout(resolve, 700));
+            router.replace('/');
+            router.refresh();
         } catch (e) {
             console.error(e);
             toast.error('Sign in failed', {
@@ -69,13 +85,13 @@ const SignIn = () => {
                 </div>
 
                 <Button type="submit" disabled={isSubmitting} className="yellow-btn w-full mt-5">
-                    {isSubmitting ? 'Signing In' : 'Sign In'}
+                    {isRedirecting ? 'Redirecting...' : isSubmitting ? 'Signing In' : 'Sign In'}
                 </Button>
 
                 <FooterLink text="Don't have an account?" linkText="Create an account" href="/sign-up" />
             </form>
 
-            {isSubmitting && <LoadingSpinner fullScreen label="Signing you in..." />}
+            {isSubmitting && <LoadingSpinner fullScreen label={isRedirecting ? "Sign in successful. Redirecting..." : "Signing you in..."} />}
         </>
     );
 };

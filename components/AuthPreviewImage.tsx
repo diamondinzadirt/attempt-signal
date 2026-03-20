@@ -25,11 +25,11 @@ const AuthPreviewImage = () => {
         width={1440}
         height={1150}
         priority
-        sizes="(max-width: 1023px) 100vw, 55vw"
+        sizes="55vw"
         onLoad={() => setIsLoaded(true)}
         className={[
           'auth-dashboard-preview',
-          isVisible ? 'translate-x-0 translate-y-0 opacity-100' : 'translate-y-10 opacity-0 lg:translate-x-14 lg:translate-y-0',
+          isVisible ? 'translate-x-0 translate-y-0 opacity-100' : 'translate-x-12 opacity-0',
           isLoaded ? 'scale-100 blur-0' : 'scale-[1.03] blur-sm',
         ].join(' ')}
       />
